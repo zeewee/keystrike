@@ -7,6 +7,8 @@ class Application(tk.Frame):
         self.master = master
         self.pack()
         self.create_widgets()
+        self.default_size = '800x600'
+        self.master.geometry(self.default_size)
         ks = keystriker()
         ks.start()
 
