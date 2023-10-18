@@ -12,8 +12,9 @@ class keystriker():
         self.KEYS = defaultdict(int)
         self.MOUSE_BUTTONS = defaultdict(int)
         self.DATA_FILE = 'key_log.txt'
-        self.stop_signal = False
-        self.logger_period = 60 # in seconds
+        self.start_logging = True
+        self.logger_period = 5 # in seconds
+        print('keystriker init done')
 
     def on_press(self, key):
         try:
@@ -32,20 +33,31 @@ class keystriker():
         self.KEYS.clear()
         self.MOUSE_BUTTONS.clear()
 
-    def start(self):
+    def logging(self):
         with keyboard.Listener(on_press=self.on_press) as k_listener, \
                 mouse.Listener(on_click=self.on_click) as m_listener:
-            while self.stop_signal is False:
+            print('debug: start logging')
+            while self.start_logging is True:
                 try:
                     time.sleep(self.logger_period)
                     self.log_data()
                 except KeyboardInterrupt:
                     print('keyboard interrupt, exit')
                     break
+            print('logging stopped')
+
+    def start(self):
+        if self.start_logging is False:
+            self.start_logging = True
+            print('change start_logging, False -> True')
+            self.logging()
+        else:
+            print('already start, nothing need to do')
+            return
 
     def stop(self):
-        self.stop_signal = True
-        print('set stop_signal to True')
+        self.start_logging = False
+        print('set start_logging to False')
 
 def generate_chart(time_unit):
     data = defaultdict(int)
