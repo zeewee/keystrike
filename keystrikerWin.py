@@ -62,6 +62,7 @@ class Application(tk.Frame):
         self.create_widgets()
         self.default_size = '800x600'
         self.master.geometry(self.default_size)
+        self.master.after(5000, self.master.withdraw)
         self.start()
 
     def create_widgets(self):
