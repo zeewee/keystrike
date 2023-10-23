@@ -83,6 +83,7 @@ class Application(tk.Frame):
         self.ks = keystriker()
         _, child_conn = Pipe()
         p = Process(target=self.ks.logging, args={child_conn,})
+        p.daemon=True
         p.start()
 
     def stop(self):
