@@ -12,7 +12,7 @@ class keystriker():
         self.KEYS = defaultdict(int)
         self.MOUSE_BUTTONS = defaultdict(int)
         self.DATA_FILE = 'key_log.txt'
-        self.logger_period = 5   # seconds
+        self.logger_period = 60   # seconds
         print('keystriker init done')
 
     def on_press(self, key):
@@ -50,6 +50,8 @@ class keystriker():
 
     def stop(self):
         print('keystriker logging stopped')
+        self.log_data()
+        print(f'flushed all data into {self.DATA_FILE}')
 
 
 class Application(tk.Frame):
