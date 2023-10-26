@@ -5,6 +5,9 @@ from pynput import keyboard, mouse
 from collections import defaultdict
 import datetime
 import time
+import pystray
+from PIL import Image
+
 
 class keystriker():
     def __init__(self):
@@ -62,8 +65,31 @@ class Application(tk.Frame):
         self.create_widgets()
         self.default_size = '800x600'
         self.master.geometry(self.default_size)
-        self.master.after(5000, self.master.withdraw)
+        self.master.after(5000, self.withdraw_window)
         self.start()
+        self.create_tray()
+
+    def create_tray(self):
+        self.image = Image.open('icon.jpg')
+        self.menu = pystray.Menu(
+            pystray.MenuItem('Show Window', self.show_window),
+            pystray.MenuItem('Exit', self.quit_window)
+        )
+        self.master.protocol('WM_DELETE_WINDOW', self.withdraw_window)
+
+    def quit_window(self):
+        self.icon.stop()
+        self.master.destroy()
+
+    def show_window(self):
+        self.icon.stop()
+        self.master.protocol('WM_DELETE_WINDOW', self.withdraw_window)
+        self.master.after(0, self.master.deiconify)
+
+    def withdraw_window(self):
+        self.master.withdraw()
+        self.icon = pystray.Icon('keystrike', self.image, 'title', self.menu)
+        self.icon.run()
 
     def create_widgets(self):
         self.hi_there = tk.Button(self)
